@@ -3,7 +3,6 @@ package com.example.ddd_es;
 import com.example.ddd.lager.domain.ArtikelId;
 import com.example.ddd.lager.domain.KundenId;
 import com.example.ddd.lager.domain.LagerplatzId;
-import com.example.ddd_es.lager.domainLoesung1.LagerplatzProjection;
 import com.example.ddd_es.lager.applicationLoesung1.RepositoryImpl;
 import com.example.ddd_es.lager.domainLoesung1.*;
 import jakarta.annotation.PostConstruct;
