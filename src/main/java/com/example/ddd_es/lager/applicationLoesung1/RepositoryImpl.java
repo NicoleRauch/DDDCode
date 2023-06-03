@@ -1,19 +1,17 @@
 package com.example.ddd_es.lager.applicationLoesung1;
 
 import com.example.ddd_es.lager.domainLoesung1.Event;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 public class RepositoryImpl {
 
-    private List<Event> events = new ArrayList<>();
+    private ImmutableList<Event> events = ImmutableList.<Event>builder().build();
 
     public void storeEvent(Event event){
-        events.add(event);
+        events = ImmutableList.<Event>builder().addAll(events).add(event).build();
     }
 
-    public List<Event> events(){
+    public ImmutableList<Event> events(){
         return events;
     }
 }
