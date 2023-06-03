@@ -39,5 +39,28 @@ public class LagerplatzProjection {
     public String toString() {
         return bestand.toString();
     }
+
+    private static class LagerplatzBestand {
+        private ImmutableMap<ArtikelId, Integer> lagerplatzBestand = ImmutableMap.<ArtikelId, Integer>builder().build();
+
+        public void aktualisiereBestand(ArtikelId artikel, Integer bestandsAenderung) {
+            if (bestandsAenderung == null || bestandsAenderung == 0) {
+                return;
+            }
+            Integer aktuellerBestand = lagerplatzBestand.get(artikel);
+            int neuerBestand = (aktuellerBestand != null ? aktuellerBestand : 0) + bestandsAenderung;
+            lagerplatzBestand = ImmutableMap.<ArtikelId, Integer>builder()
+                    .putAll(new HashMap<>() {{
+                        putAll(lagerplatzBestand);
+                        put(artikel, neuerBestand);
+                    }})
+                    .build();
+        }
+
+        public String toString() {
+            return lagerplatzBestand.toString();
+        }
+    }
+
 }
 
