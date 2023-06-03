@@ -1,9 +1,10 @@
 package com.example.ddd_es.lager.applicationLoesung1;
 
 import com.example.ddd_es.lager.domainLoesung1.Event;
+import com.example.ddd_es.lager.domainLoesung1.Repository;
 import com.google.common.collect.ImmutableList;
 
-public class RepositoryImpl {
+public class RepositoryImpl implements Repository {
 
     private ImmutableList<Event> events = ImmutableList.<Event>builder().build();
 
