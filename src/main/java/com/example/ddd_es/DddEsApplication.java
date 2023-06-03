@@ -5,6 +5,8 @@ import com.example.ddd.lager.domain.KundenId;
 import com.example.ddd.lager.domain.LagerplatzId;
 import com.example.ddd_es.lager.applicationLoesung1.RepositoryImpl;
 import com.example.ddd_es.lager.domainLoesung1.*;
+import com.example.ddd_es.lager.domainLoesung2.CommandHandler;
+import com.example.ddd_es.lager.domainLoesung2.VerkaufeArtikel;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,7 @@ public class DddEsApplication {
 		SpringApplication.run(DddEsApplication.class, args);
 	}
 
-	private final RepositoryImpl repository = new RepositoryImpl();
+	private final Repository repository = new RepositoryImpl();
 
 	@PostConstruct
 	public void init(){
@@ -40,7 +42,21 @@ public class DddEsApplication {
 
 		LagerplatzProjection lagerplatzProjection = new LagerplatzProjection();
 		repository.events().forEach(lagerplatzProjection::project);
-
 		LOGGER.info("Lagerplatz-Bestand:" + lagerplatzProjection.toString());
+
+		CommandHandler handler = new CommandHandler(repository);
+		handler.handleCommand(new VerkaufeArtikel(artikel1, 4, kundenId));
+
+		// TODO wie das Read-Model weiterschieben?
+		LagerplatzProjection lagerplatzProjection2 = new LagerplatzProjection();
+		repository.events().forEach(lagerplatzProjection2::project);
+		LOGGER.info("Lagerplatz-Bestand 2:" + lagerplatzProjection2.toString());
+
+		try {
+			handler.handleCommand(new VerkaufeArtikel(artikel1, 4, kundenId));
+		} catch(Exception e){
+			LOGGER.info("Exception: " + e.getMessage());
+		}
+
 	}
 }

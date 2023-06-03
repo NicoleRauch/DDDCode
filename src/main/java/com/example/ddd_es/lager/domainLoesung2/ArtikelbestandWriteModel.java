@@ -5,7 +5,9 @@ import com.example.ddd.lager.domain.LagerplatzId;
 import com.example.ddd_es.lager.domainLoesung1.*;
 import com.google.common.collect.ImmutableMap;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ArtikelbestandWriteModel {
 
@@ -36,7 +38,11 @@ public class ArtikelbestandWriteModel {
                 .build();
     }
 
-    private static class ArtikelBestand {
+    public ArtikelBestand getBestandFuer(ArtikelId artikel) {
+        return bestand.get(artikel);
+    }
+
+    public static class ArtikelBestand {
         private ImmutableMap<LagerplatzId, Integer> artikelBestand = ImmutableMap.<LagerplatzId, Integer>builder().build();
 
         private void aktualisiereBestand(LagerplatzId lagerplatz, Integer bestandsAenderung) {
@@ -51,6 +57,20 @@ public class ArtikelbestandWriteModel {
                         put(lagerplatz, neuerBestand);
                     }})
                     .build();
+        }
+
+        public LagerplatzId kleinsterLagerplatzMitMindestens(int anzahl){
+            Comparator<Map.Entry<LagerplatzId, Integer>> comparator = new Comparator<>() {
+                @Override
+                public int compare(Map.Entry<LagerplatzId, Integer> o1, Map.Entry<LagerplatzId, Integer> o2) {
+                    return o1.getValue().compareTo(o2.getValue());
+                }
+            };
+
+            return artikelBestand.entrySet().stream().toList().stream()
+                    .filter((Map.Entry<LagerplatzId, Integer> entry) -> entry.getValue() >= anzahl)
+                    .min(comparator).orElseThrow()
+                    .getKey();
         }
 
         public String toString() {
