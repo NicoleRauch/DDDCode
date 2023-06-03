@@ -39,7 +39,7 @@ public class ArtikelbestandWriteModel {
     private static class ArtikelBestand {
         private ImmutableMap<LagerplatzId, Integer> artikelBestand = ImmutableMap.<LagerplatzId, Integer>builder().build();
 
-        public void aktualisiereBestand(LagerplatzId lagerplatz, Integer bestandsAenderung) {
+        private void aktualisiereBestand(LagerplatzId lagerplatz, Integer bestandsAenderung) {
             if (bestandsAenderung == null || bestandsAenderung == 0) {
                 return;
             }

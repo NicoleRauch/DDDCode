@@ -43,7 +43,7 @@ public class LagerplatzProjection {
     private static class LagerplatzBestand {
         private ImmutableMap<ArtikelId, Integer> lagerplatzBestand = ImmutableMap.<ArtikelId, Integer>builder().build();
 
-        public void aktualisiereBestand(ArtikelId artikel, Integer bestandsAenderung) {
+        private void aktualisiereBestand(ArtikelId artikel, Integer bestandsAenderung) {
             if (bestandsAenderung == null || bestandsAenderung == 0) {
                 return;
             }
