@@ -1,4 +1,4 @@
-package com.example.ddd_es.lager.applicationLoesung1;
+package com.example.ddd_es.lager.domainLoesung1;
 
 import com.example.ddd.lager.domain.ArtikelId;
 import com.google.common.collect.ImmutableMap;

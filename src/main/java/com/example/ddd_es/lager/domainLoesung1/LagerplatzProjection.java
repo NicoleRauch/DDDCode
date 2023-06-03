@@ -1,9 +1,8 @@
-package com.example.ddd_es.lager.applicationLoesung1;
+package com.example.ddd_es.lager.domainLoesung1;
 
 import com.example.ddd.lager.domain.ArtikelId;
 import com.example.ddd.lager.domain.LagerplatzId;
 
-import com.example.ddd_es.lager.domainLoesung1.*;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
