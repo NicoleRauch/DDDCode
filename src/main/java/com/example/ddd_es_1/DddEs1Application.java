@@ -1,12 +1,12 @@
-package com.example.ddd_es;
+package com.example.ddd_es_1;
 
 import com.example.ddd.lager.domain.ArtikelId;
 import com.example.ddd.lager.domain.KundenId;
 import com.example.ddd.lager.domain.LagerplatzId;
-import com.example.ddd_es.lager.applicationLoesung1.RepositoryImpl;
-import com.example.ddd_es.lager.domainLoesung1.*;
-import com.example.ddd_es.lager.domainLoesung2.CommandHandler;
-import com.example.ddd_es.lager.domainLoesung2.VerkaufeArtikel;
+import com.example.ddd_es_1.lager.applicationLoesung1.RepositoryImpl;
+import com.example.ddd_es_1.lager.domainLoesung1.*;
+import com.example.ddd_es_1.lager.domainLoesung2.CommandHandler;
+import com.example.ddd_es_1.lager.domainLoesung2.VerkaufeArtikel;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +14,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DddEsApplication {
+public class DddEs1Application {
 
-	private static final Logger LOGGER=LoggerFactory.getLogger(DddEsApplication.class);
+	private static final Logger LOGGER=LoggerFactory.getLogger(DddEs1Application.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(DddEsApplication.class, args);
+		SpringApplication.run(DddEs1Application.class, args);
 	}
 
 	private final Repository repository = new RepositoryImpl();

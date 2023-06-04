@@ -1,4 +1,4 @@
-package com.example.ddd_es.lager.domainLoesung2;
+package com.example.ddd_es_1.lager.domainLoesung2;
 
 import com.example.ddd.lager.domain.ArtikelId;
 import com.example.ddd.lager.domain.KundenId;

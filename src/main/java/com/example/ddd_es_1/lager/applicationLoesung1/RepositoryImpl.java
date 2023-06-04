@@ -1,7 +1,7 @@
-package com.example.ddd_es.lager.applicationLoesung1;
+package com.example.ddd_es_1.lager.applicationLoesung1;
 
-import com.example.ddd_es.lager.domainLoesung1.Event;
-import com.example.ddd_es.lager.domainLoesung1.Repository;
+import com.example.ddd_es_1.lager.domainLoesung1.Event;
+import com.example.ddd_es_1.lager.domainLoesung1.Repository;
 import com.google.common.collect.ImmutableList;
 
 public class RepositoryImpl implements Repository {

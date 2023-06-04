@@ -1,9 +1,9 @@
-package com.example.ddd_es.lager.domainLoesung2;
+package com.example.ddd_es_1.lager.domainLoesung2;
 
 import com.example.ddd.lager.domain.LagerplatzId;
-import com.example.ddd_es.lager.domainLoesung1.ArtikelVerkauft;
-import com.example.ddd_es.lager.domainLoesung1.Event;
-import com.example.ddd_es.lager.domainLoesung1.Repository;
+import com.example.ddd_es_1.lager.domainLoesung1.ArtikelVerkauft;
+import com.example.ddd_es_1.lager.domainLoesung1.Event;
+import com.example.ddd_es_1.lager.domainLoesung1.Repository;
 
 public class CommandHandler {
 
