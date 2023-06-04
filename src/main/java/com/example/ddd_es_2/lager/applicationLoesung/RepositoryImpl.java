@@ -2,7 +2,6 @@ package com.example.ddd_es_2.lager.applicationLoesung;
 
 import com.example.ddd_es_1.lager.domainLoesung1.Event;
 import com.example.ddd_es_1.lager.domainLoesung1.Repository;
-import com.example.ddd_es_2.lager.DddEs2ReadSide;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

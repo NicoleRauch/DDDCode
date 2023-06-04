@@ -1,4 +1,4 @@
-package com.example.ddd_es_2.lager;
+package com.example.ddd_es_2;
 
 import com.example.ddd_es_1.lager.domainLoesung1.Event;
 import com.example.ddd_es_1.lager.domainLoesung1.LagerplatzProjection;
