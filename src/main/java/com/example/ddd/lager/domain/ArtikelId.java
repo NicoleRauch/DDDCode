@@ -1,4 +1,6 @@
 package com.example.ddd.lager.domain;
 
-public record ArtikelId(String id) {
+import java.io.Serializable;
+
+public record ArtikelId(String id) implements Serializable {
 }
