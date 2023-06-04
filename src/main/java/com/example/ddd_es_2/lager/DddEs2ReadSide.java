@@ -25,16 +25,22 @@ public class DddEs2ReadSide extends Thread {
 
         try (ZContext context = new ZContext()) {
             //  Socket to talk to server
-            ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
-            subscriber.connect("tcp://localhost:5556");
+            ZMQ.Socket socket = context.createSocket(SocketType.REQ);
+            socket.connect("tcp://localhost:5556");
 
-            subscriber.subscribe("".getBytes(ZMQ.CHARSET));
+            for (int requestNbr = 0; requestNbr != 10; requestNbr++) {
+                String request = "Hello";
+                LOGGER.info("Sending request " + requestNbr);
+                socket.send(request.getBytes(ZMQ.CHARSET), 0);
 
-            while (true) {
-                String eventString = subscriber.recvStr(0).trim();
+                byte[] reply = socket.recv(0);
+                LOGGER.info("Received " + requestNbr);
+
                 try {
                     ObjectInputStream ois = new ObjectInputStream(
-                            new ByteArrayInputStream(Base64.getDecoder().decode(eventString)));
+                            new ByteArrayInputStream(Base64.getDecoder()
+                                    .decode(new String(reply, ZMQ.CHARSET))));
+
                     Event event = (Event) ois.readObject();
                     ois.close();
                     lagerplatzProjection.project(event);
@@ -43,8 +49,8 @@ public class DddEs2ReadSide extends Thread {
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
-
             }
-        }
+        } // end of ZeroMQ context
     }
 }
+

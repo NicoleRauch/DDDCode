@@ -20,51 +20,56 @@ import org.zeromq.ZContext;
 @SpringBootApplication
 public class DddEs2Application {
 
-	private static final Logger LOGGER=LoggerFactory.getLogger(DddEs2Application.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DddEs2Application.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(DddEs2Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DddEs2Application.class, args);
+    }
 
-	private Repository repository = null;
+    private Repository repository = null;
 
-	@PostConstruct
-	public void init() throws InterruptedException {
+    @PostConstruct
+    public void init() throws InterruptedException {
 
-		//  Prepare our context and publisher
-		try (ZContext context = new ZContext()) {
-			ZMQ.Socket publisher = context.createSocket(SocketType.PUB);
-			publisher.bind("tcp://*:5556");
-			repository = new RepositoryImpl(publisher);
-		}
+        Thread readSide = new DddEs2ReadSide();
+        readSide.start();
+        Thread.sleep(1000); // nur zu Demo-Zwecken!!
 
-		Thread readSide = new DddEs2ReadSide();
-		readSide.start();
-		Thread.sleep(1000); // nur zu Demo-Zwecken!!
+        LOGGER.info("Write-Side running");
 
-		ArtikelId artikel1 = new ArtikelId("Artikel1");
-		ArtikelId artikel2 = new ArtikelId("Artikel2");
+        ArtikelId artikel1 = new ArtikelId("Artikel1");
+        ArtikelId artikel2 = new ArtikelId("Artikel2");
 
-		LagerplatzId lagerplatz1 = new LagerplatzId("Lagerplatz1");
-		LagerplatzId lagerplatz2 = new LagerplatzId("Lagerplatz2");
-		LagerplatzId lagerplatz3 = new LagerplatzId("Lagerplatz3");
+        LagerplatzId lagerplatz1 = new LagerplatzId("Lagerplatz1");
+        LagerplatzId lagerplatz2 = new LagerplatzId("Lagerplatz2");
+        LagerplatzId lagerplatz3 = new LagerplatzId("Lagerplatz3");
 
-		KundenId kundenId = new KundenId("Kunde");
+        KundenId kundenId = new KundenId("Kunde");
 
-		repository.storeEvent(new ArtikelEingelagert(artikel1, 7, lagerplatz1)); // L1: A1: 7
-		/*
-		repository.storeEvent(new ArtikelEingelagert(artikel2, 5, lagerplatz2)); // L1: A1: 7; L2: A2: 5
-		repository.storeEvent(new ArtikelUmgelagert(artikel1, 4, lagerplatz1, lagerplatz3)); // L1: A1: 3; L2: A2: 5; L3: A1: 4
-		repository.storeEvent(new ArtikelVerkauft(artikel2, 2, lagerplatz2, kundenId)); // L1: A1: 3; L2: A2: 3; L3: A1: 4
+        //  Prepare our context and socket
+        try (ZContext context = new ZContext()) {
+            // Socket to talk to clients
+            ZMQ.Socket socket = context.createSocket(SocketType.REP);
+            socket.bind("tcp://*:5556");
 
-		CommandHandler handler = new CommandHandler(repository);
-		handler.handleCommand(new VerkaufeArtikel(artikel1, 4, kundenId));
+            repository = new RepositoryImpl(socket);
 
-		try {
-			handler.handleCommand(new VerkaufeArtikel(artikel1, 4, kundenId));
-		} catch(Exception e){
-			LOGGER.info("Exception: " + e.getMessage());
-		}
-		*/
-	}
+            repository.storeEvent(new ArtikelEingelagert(artikel1, 7, lagerplatz1)); // L1: A1: 7
+            repository.storeEvent(new ArtikelEingelagert(artikel2, 5, lagerplatz2)); // L1: A1: 7; L2: A2: 5
+            repository.storeEvent(new ArtikelUmgelagert(artikel1, 4, lagerplatz1, lagerplatz3)); // L1: A1: 3; L2: A2: 5; L3: A1: 4
+            repository.storeEvent(new ArtikelVerkauft(artikel2, 2, lagerplatz2, kundenId)); // L1: A1: 3; L2: A2: 3; L3: A1: 4
+
+            CommandHandler handler = new CommandHandler(repository);
+            handler.handleCommand(new VerkaufeArtikel(artikel1, 4, kundenId));
+
+            /*
+            try {
+                handler.handleCommand(new VerkaufeArtikel(artikel1, 4, kundenId));
+            } catch (Exception e) {
+                LOGGER.info("Exception: " + e.getMessage());
+            }
+            */
+
+        } // end of ZeroMQ context
+    }
 }
